@@ -1,0 +1,57 @@
+class Main {
+    
+    private static void deleteRoot(int[] arr, int n) {
+        if (n == 0) {
+            System.out.println("Heap is empty!");
+            return;
+        }
+
+        // Replace root with the last element
+        arr[0] = arr[n - 1];
+        n--; // Reduce heap size
+        int i = 0;
+
+        // Heapify-Down to restore heap property
+        while (true) {
+            int left = 2 * i + 1;
+            int right = 2 * i + 2;
+            int largest = i;
+
+            if (left < n && arr[left] > arr[largest]) {
+                largest = left;
+            }
+            if (right < n && arr[right] > arr[largest]) {
+                largest = right;
+            }
+
+            if (largest != i) {
+                swap(arr, i, largest);
+                i = largest;
+            } else {
+                break;
+            }
+        }
+    }
+
+    private static void swap(int[] arr, int i, int j) {
+        int temp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = temp;
+    }
+
+    public static void main(String[] args) {
+        int[] arr = {40, 30, 20, 15, 10, 5}; // Max Heap
+        int n = arr.length;
+
+        System.out.print("Heap before deletion: ");
+        for (int i = 0; i < n; i++) System.out.print(arr[i] + " ");
+        System.out.println();
+
+        deleteRoot(arr, n);
+        n--; // Reduce size after deletion
+
+        System.out.print("Heap after deleting root: ");
+        for (int i = 0; i < n; i++) System.out.print(arr[i] + " ");
+        System.out.println();
+    }
+}
