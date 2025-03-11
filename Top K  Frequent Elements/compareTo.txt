@@ -1,0 +1,60 @@
+package target;
+import java.util.*;
+
+class Students implements Comparable<Students> {
+	
+	String name;
+	int marks;
+	
+	Students (String name , int marks){
+		
+		this.name = name;
+		this.marks=marks;
+		
+	}
+	
+	@Override
+	public int compareTo(Students other) {
+		return Integer.compare(this.marks, other.marks);  // ascending order
+		
+		/*
+		 * 0 → if x == y (both are equal)
+           < 0 → if x < y (meaning x should come before y)
+           > 0 → if x > y (meaning x should come after y)
+		 */
+		
+		
+		//descending order => return Integer.compare( other.marks , this.marks,);
+	}
+	
+	   // Display method
+    public String toString() {
+        return name + " (Marks: " + marks + ")";
+    }
+	
+	
+	
+	
+}
+public class Main {
+
+	
+	public static void main (String []  args) {
+		
+		
+		
+		
+		 List<Students> students = new ArrayList<>();
+	        students.add(new Students("Amit", 85));
+	        students.add(new Students("Ravi", 75));
+	        students.add(new Students("Kiran", 90));
+
+	        // Sorting using Collections.sort()
+	        Collections.sort(students);
+
+	        System.out.println("Sorted Students by Marks (Ascending):");
+	        for (Students s : students) {
+	            System.out.println(s);
+	        }
+	    }
+	}
