@@ -1,0 +1,88 @@
+package target;
+
+import java.util.*;
+
+
+
+public class Codec {
+
+    // Serialize method
+    public String serialize(TreeNode root) {
+        if (root == null) return "null";
+
+        Queue<TreeNode> q = new LinkedList<>();
+        StringBuilder sb = new StringBuilder();
+        q.offer(root);
+
+        while (!q.isEmpty()) {
+            TreeNode cur = q.poll();
+            if (cur == null) {
+                sb.append("#,");
+            } else {
+                sb.append(cur.val).append(",");
+                q.offer(cur.left);
+                q.offer(cur.right);
+            }
+        }
+
+        return sb.toString();
+    }
+
+    // Deserialize method
+    public TreeNode deserialize(String data) {
+        if (data.isEmpty() || data.equals("null")) return null;
+
+        String[] nodes = data.split(",");
+        TreeNode root = new TreeNode(Integer.parseInt(nodes[0]));
+        Queue<TreeNode> q = new LinkedList<>();
+        q.offer(root);
+
+        for (int i = 1; i < nodes.length; ) {
+            TreeNode node = q.poll();
+
+            // Left child
+            if (!nodes[i].equals("#")) {
+                node.left = new TreeNode(Integer.parseInt(nodes[i]));
+                q.offer(node.left);
+            }
+            i++;
+
+            // Right child
+            if (i < nodes.length && !nodes[i].equals("#")) {
+                node.right = new TreeNode(Integer.parseInt(nodes[i]));
+                q.offer(node.right);
+            }
+            i++;
+        }
+
+        return root;
+    }
+
+    // Inorder Traversal (for verification)
+    public static void inorder(TreeNode root) {
+        if (root == null) return;
+        inorder(root.left);
+        System.out.print(root.val + " ");
+        inorder(root.right);
+    }
+
+    public static void main(String[] args) {
+        Codec codec = new Codec();
+
+        // Sample tree
+        TreeNode root = new TreeNode(1);
+        root.left = new TreeNode(2);
+        root.right = new TreeNode(3);
+        root.right.left = new TreeNode(4);
+        root.right.right = new TreeNode(5);
+
+        // Serialization
+        String serializedData = codec.serialize(root);
+        System.out.println("Serialized Tree: " + serializedData);
+
+        // Deserialization
+        TreeNode deserializedRoot = codec.deserialize(serializedData);
+        System.out.print("Inorder Traversal after Deserialization: ");
+        codec.inorder(deserializedRoot);
+    }
+}
