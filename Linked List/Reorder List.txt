@@ -1,0 +1,73 @@
+package target;
+
+
+class ListNode {
+    int val;
+    ListNode next;
+    ListNode(int val) { this.val = val; this.next = null; }
+}
+
+public class ReorderLinkedList {
+    public void reorderList(ListNode head) {
+        if (head == null || head.next == null) return;
+
+        // Step 1: Find the middle of the list
+        ListNode slow = head, fast = head;
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+
+        // Step 2: Reverse the second half
+        ListNode second = reverse(slow.next);
+        slow.next = null; // Break the list into two halves
+
+        // Step 3: Merge the two halves
+        ListNode first = head;
+        while (first != null && second != null) {
+            ListNode temp1 = first.next, temp2 = second.next;
+            first.next = second;
+            second.next = temp1;
+            first = temp1;
+            second = temp2;
+        }
+    }
+
+    private ListNode reverse(ListNode head) {
+        ListNode prev = null;
+        while (head != null) {
+            ListNode next = head.next;
+            head.next = prev;
+            prev = head;
+            head = next;
+        }
+        return prev;
+    }
+
+    // Utility function to print the list
+    private static void printList(ListNode head) {
+        while (head != null) {
+            System.out.print(head.val + " → ");
+            head = head.next;
+        }
+        System.out.println("null");
+    }
+
+    public static void main(String[] args) {
+        ReorderLinkedList obj = new ReorderLinkedList();
+        
+        ListNode head = new ListNode(1);
+        head.next = new ListNode(2);
+        head.next.next = new ListNode(3);
+        head.next.next.next = new ListNode(4);
+        head.next.next.next.next = new ListNode(5);
+
+        System.out.println("Original List:");
+        printList(head);
+
+        obj.reorderList(head);
+
+        System.out.println("Reordered List:");
+        printList(head);
+    }
+}
