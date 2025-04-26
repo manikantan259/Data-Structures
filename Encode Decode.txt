@@ -1,0 +1,50 @@
+import java.util.*;
+
+public class EncodeDecodeStrings {
+
+    // Encoding method
+    public static String encode(List<String> strs) {
+        StringBuilder encodedString = new StringBuilder();
+        
+        for (String str : strs) {
+            // Encode each string as: length of string + '#' + string itself
+            encodedString.append(str.length()).append('#').append(str);
+        }
+        
+        return encodedString.toString();
+    }
+
+    // Decoding method
+    public static List<String> decode(String s) {
+        List<String> decodedList = new ArrayList<>();
+        int i = 0;
+        
+        while (i < s.length()) {
+            // Find the position of the delimiter (#)
+            int j = s.indexOf('#', i);
+            
+            // Get the length of the next string
+            int length = Integer.parseInt(s.substring(i, j));
+            
+            // Extract the string based on the length
+            decodedList.add(s.substring(j + 1, j + 1 + length));
+            
+            // Move to the next part of the encoded string
+            i = j + 1 + length;
+        }
+        
+        return decodedList;
+    }
+
+    public static void main(String[] args) {
+        List<String> strs = Arrays.asList("hello", "world", "this", "is", "java");
+
+        // Encoding the list of strings
+        String encodedString = encode(strs);
+        System.out.println("Encoded String: " + encodedString);
+
+        // Decoding the string back to the list of strings
+        List<String> decodedList = decode(encodedString);
+        System.out.println("Decoded List: " + decodedList);
+    }
+}

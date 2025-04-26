@@ -1,0 +1,26 @@
+public static int kthSmallest(TreeNode root, int k) {
+        Stack<TreeNode> stack = new Stack<>();
+        TreeNode curr = root;
+        
+        while (true) {
+            // Traverse to the leftmost node
+            while (curr != null) {
+                stack.push(curr);
+                curr = curr.left;
+            }
+            
+            // Pop the node from the stack
+            curr = stack.pop();
+            
+            // Decrease k for every node we process
+            k--;
+            
+            // If k is 0, we've found our kth smallest element
+            if (k == 0) {
+                return curr.val;
+            }
+            
+            // Move to the right subtree
+            curr = curr.right;
+        }
+    }

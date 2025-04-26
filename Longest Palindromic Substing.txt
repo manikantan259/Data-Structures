@@ -1,0 +1,32 @@
+public class Main {
+    public static void main(String[] args) {
+        String input = "babad"; // Try "racecar", "cbbd", etc.
+        System.out.println("Longest Palindrome: " + longestPalindrome(input));
+    }
+
+    public static String longestPalindrome(String str) {
+        if (str.length() <= 1) return str;
+        String LPS = str.substring(0, 1); // Initialize with first char
+
+        for (int i = 1; i < str.length(); i++) {
+            // Odd-length palindromes (e.g., "bab")
+            String odd = expand(str, i, i);
+            // Even-length palindromes (e.g., "abba")
+            String even = expand(str, i-1, i);
+
+            // Update LPS to the longest found
+            if (odd.length() > LPS.length()) LPS = odd;
+            if (even.length() > LPS.length()) LPS = even;
+        }
+        return LPS;
+    }
+
+    // Helper function to expand around center
+    private static String expand(String s, int left, int right) {
+        while (left >= 0 && right < s.length() && s.charAt(left) == s.charAt(right)) {
+            left--;
+            right++;
+        }
+        return s.substring(left + 1, right);
+    }
+}

@@ -1,0 +1,26 @@
+public static int[] maxSubArray(int[] nums) {
+        int maxSum = nums[0];
+        int currentSum = nums[0];
+        
+        int start = 0;
+        int end = 0;
+        int tempStart = 0;
+
+        for (int i = 1; i < nums.length; i++) {
+            if (nums[i] > currentSum + nums[i]) {
+                currentSum = nums[i];
+                tempStart = i;  // Start new subarray
+            } else {
+                currentSum += nums[i];
+            }
+
+            if (currentSum > maxSum) {
+                maxSum = currentSum;
+                start = tempStart;
+                end = i;
+            }
+        }
+ int[] subarray = Arrays.copyOfRange(nums, start, end + 1);
+        System.out.println("Maximum Subarray: " + Arrays.toString(subarray));
+        System.out.println("Maximum Sum: " + maxSum);
+        return subarray;

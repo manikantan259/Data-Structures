@@ -1,0 +1,26 @@
+public class SubtreeCheck {
+
+    public static boolean isSubtree(TreeNode root, TreeNode subRoot) {
+        if (root == null) return false;
+
+        if (isSameTree(root, subRoot)) {
+            return true;
+        }
+
+        // Recur left and right
+        boolean inLeft = isSubtree(root.left, subRoot);
+        boolean inRight = isSubtree(root.right, subRoot);
+
+        return inLeft || inRight;
+    }
+
+    public static boolean isSameTree(TreeNode p, TreeNode q) {
+        if (p == null && q == null) return true;
+        if (p == null || q == null) return false;
+        if (p.val != q.val) return false;
+
+        boolean isLeftSame = isSameTree(p.left, q.left);
+        boolean isRightSame = isSameTree(p.right, q.right);
+
+        return isLeftSame && isRightSame;
+    }
