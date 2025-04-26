@@ -1,0 +1,36 @@
+import java.util.*;
+
+class Main {
+    public static void main(String[] args) {
+        int[] nums = {1,1,1,2,2,3};
+        int k = 2;
+        int[] result = TopKFrequentElements.topKFrequent(nums, k);
+        System.out.println(Arrays.toString(result)); // Output: [1, 2]
+    }
+}
+
+class TopKFrequentElements {
+    public static int[] topKFrequent(int[] nums, int k) {
+        // create freqHashMap
+        HashMap<Integer, Integer> mp = new HashMap<>();
+        for (int ele : nums) {
+            mp.put(ele, mp.getOrDefault(ele, 0) + 1);
+        }
+        
+        PriorityQueue<int[]> heap = new PriorityQueue<>((a, b) -> a[0] - b[0]);
+        
+        for (Map.Entry<Integer, Integer> ele : mp.entrySet()) {
+            heap.offer(new int[]{ele.getValue(), ele.getKey()});
+            if (heap.size() > k) {
+                heap.poll();
+            }
+        }
+        
+        int[] res = new int[k];
+        // Fixed the loop here - changed i++ to i--
+        for (int i = k - 1; i >= 0; i--) {
+            res[i] = heap.poll()[1];
+        }
+        return res;
+    }
+}

@@ -1,0 +1,31 @@
+import java.util.*;
+
+public class WordBreakDP {
+    public static boolean wordBreak(String s, List<String> wordDict) {
+        // Convert wordDict to HashSet for O(1) lookups
+        Set<String> dict = new HashSet<>(wordDict);
+        int n = s.length();
+        
+        // dp[i] = true if s[0..i-1] can be segmented
+        boolean[] dp = new boolean[n + 1];
+        dp[0] = true; // Base case: empty string
+        
+        for (int i = 1; i <= n; i++) {
+            for (int j = 0; j < i; j++) {
+                // If s[0..j-1] is breakable and s[j..i-1] is in dict
+                if (dp[j] && dict.contains(s.substring(j, i))) {
+                    dp[i] = true;
+                    break; // No need to check further for this i
+                }
+            }
+        }
+        
+        return dp[n];
+    }
+
+    public static void main(String[] args) {
+        String s = "leetcode";
+        List<String> dict = Arrays.asList("leet", "code");
+        System.out.println(wordBreak(s, dict)); // Output: true
+    }
+}
